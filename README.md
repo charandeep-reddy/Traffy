@@ -1,0 +1,54 @@
+# Traffic Indicator
+
+A lightweight macOS menu bar app that displays real-time network upload and download speeds.
+
+![menu bar screenshot](https://img.shields.io/badge/macOS-13%2B-blue) ![Swift](https://img.shields.io/badge/Swift-5.8-orange) ![MIT](https://img.shields.io/badge/license-MIT-green)
+
+## Features
+
+- **Real-time speeds** — upload and download displayed in the menu bar
+- **Split/Combined mode** — show both speeds or just the active direction
+- **Bytes/Bits** — toggle between B/s, KB/s, MB/s or b/s, Kbps, Mbps
+- **Custom interval** — update every 1s, 2s, or 3s
+- **Launch at Login** — automatically starts when you log in
+- **No dock icon** — lives quietly in the menu bar (LSUIElement agent)
+
+## Requirements
+
+- macOS 13 or later (Ventura+)
+- Apple Silicon or Intel Mac
+
+## Installation
+
+1. Download the latest `TrafficIndicator.dmg` from [Releases](https://github.com/yourusername/TrafficIndicator/releases)
+2. Open the DMG and drag `TrafficIndicator.app` to your Applications folder
+3. Launch it — you'll see your network speeds in the menu bar
+4. (Optional) Enable "Launch at Login" from the dropdown menu
+
+## Build from Source
+
+```bash
+git clone https://github.com/yourusername/TrafficIndicator.git
+cd TrafficIndicator
+make dmg
+```
+
+The `.dmg` and `.app` will be created in the project root.
+
+## Usage
+
+Click the speed display in the menu bar to open the dropdown:
+
+- **Mode** → Split (both speeds) or Combined (dominant direction only)
+- **Unit** → Bytes or Bits
+- **Interval** → 1s, 2s, or 3s update rate
+- **Launch at Login** — toggle on/off
+- **Quit** — exits the app
+
+## How It Works
+
+Traffic Indicator uses the `getifaddrs()` system API to read per-interface byte counters, then calculates deltas over the configured interval to derive speeds. No external dependencies — pure Swift + system frameworks.
+
+## License
+
+MIT
