@@ -10,6 +10,8 @@
     <string>Traffy</string>
     <key>CFBundleIdentifier</key>
     <string>com.psydevx.traffy</string>
+    <key>CFBundleIconFile</key>
+    <string>AppIcon</string>
     <key>CFBundleVersion</key>
     <string>1.0.0</string>
     <key>CFBundleShortVersionString</key>
