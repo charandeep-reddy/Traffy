@@ -25,7 +25,7 @@ A lightweight macOS menu bar app that displays real-time network upload and down
 
 1. Download the latest `Traffy.dmg` from [Releases](https://github.com/charandeep-reddy/traffy/releases)
 2. Open the DMG and drag `Traffy.app` to your Applications folder
-3. **First launch:** Right-click `Traffy.app` → **Open** (click "Open" in the dialog). Subsequent launches are normal.
+3. **First launch:** Try opening Traffy. It will be blocked. Go to **System Settings → Privacy & Security → Open Anyway**. Subsequent launches are normal.
 4. (Optional) Enable "Launch at Login" from the dropdown menu
 
 ## Build from Source
