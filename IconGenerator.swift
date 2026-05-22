@@ -7,7 +7,7 @@ func generateIcon() {
     let size = 1024
     let canvas = CGRect(x: 0, y: 0, width: size, height: size)
     let inset: CGFloat = 40
-    let roundness: CGFloat = 180
+    let roundness: CGFloat = 200
 
     let cs = CGColorSpaceCreateDeviceRGB()
     let ctx = CGContext(data: nil, width: size, height: size,
@@ -15,48 +15,57 @@ func generateIcon() {
                         space: cs,
                         bitmapInfo: CGImageAlphaInfo.premultipliedFirst.rawValue)!
 
-    // White rounded square background
+    // Blue gradient rounded square background
     let bgPath = CGPath(roundedRect: canvas.insetBy(dx: inset, dy: inset),
                         cornerWidth: roundness, cornerHeight: roundness, transform: nil)
     ctx.addPath(bgPath)
-    ctx.setFillColor(CGColor(red: 1, green: 1, blue: 1, alpha: 1))
-    ctx.fillPath()
-
-    // Subtle border
-    ctx.addPath(bgPath)
-    ctx.setStrokeColor(CGColor(red: 0.85, green: 0.85, blue: 0.88, alpha: 1))
-    ctx.setLineWidth(2)
-    ctx.strokePath()
-
-    // Blue gradient background for the arrows
-    let center = CGPoint(x: canvas.midX, y: canvas.midY)
-    let innerR: CGFloat = 340
-    ctx.saveGState()
-    ctx.addEllipse(in: CGRect(x: center.x - innerR, y: center.y - innerR,
-                              width: innerR * 2, height: innerR * 2))
     ctx.clip()
 
     let gradient = CGGradient(
         colorsSpace: cs,
         colors: [
-            CGColor(red: 0, green: 0.45, blue: 1, alpha: 1),
-            CGColor(red: 0, green: 0.75, blue: 1, alpha: 1)
+            CGColor(red: 0, green: 0.478, blue: 1, alpha: 1),
+            CGColor(red: 0, green: 0.831, blue: 1, alpha: 1)
         ] as CFArray,
         locations: nil
     )!
-    ctx.drawRadialGradient(gradient,
-                           startCenter: center, startRadius: 0,
-                           endCenter: center, endRadius: innerR,
+    ctx.drawLinearGradient(gradient,
+                           start: CGPoint(x: canvas.minX, y: canvas.minY),
+                           end: CGPoint(x: canvas.maxX, y: canvas.maxY),
                            options: [])
-    ctx.restoreGState()
 
-    // Down arrow — larger, lower half
-    drawArrow(in: ctx, center: CGPoint(x: center.x, y: center.y + 40),
-              direction: 1, size: 340, color: 1)
+    // Up arrow stem: vertical line from center to top
+    ctx.setStrokeColor(CGColor(red: 1, green: 1, blue: 1, alpha: 1))
+    ctx.setLineWidth(56)
+    ctx.setLineCap(.round)
+    ctx.beginPath()
+    ctx.move(to: CGPoint(x: canvas.midX, y: canvas.midY + 80))
+    ctx.addLine(to: CGPoint(x: canvas.midX, y: canvas.minY + 130))
+    ctx.strokePath()
 
-    // Up arrow — smaller, upper half
-    drawArrow(in: ctx, center: CGPoint(x: center.x, y: center.y - 60),
-              direction: -1, size: 240, color: 0.85)
+    // Up arrowhead
+    let upTip = CGPoint(x: canvas.midX, y: canvas.minY + 70)
+    let upBase: CGFloat = canvas.midY - 80
+    let upHalf: CGFloat = 110
+    ctx.setFillColor(CGColor(red: 1, green: 1, blue: 1, alpha: 1))
+    ctx.beginPath()
+    ctx.move(to: upTip)
+    ctx.addLine(to: CGPoint(x: canvas.midX - upHalf, y: upBase))
+    ctx.addLine(to: CGPoint(x: canvas.midX + upHalf, y: upBase))
+    ctx.closePath()
+    ctx.fillPath()
+
+    // Down arrowhead (no stem)
+    let downTip = CGPoint(x: canvas.midX, y: canvas.maxY - 70)
+    let downBase: CGFloat = canvas.midY + 150
+    let downHalf: CGFloat = 120
+    ctx.setFillColor(CGColor(red: 1, green: 1, blue: 1, alpha: 0.7))
+    ctx.beginPath()
+    ctx.move(to: downTip)
+    ctx.addLine(to: CGPoint(x: canvas.midX - downHalf, y: downBase))
+    ctx.addLine(to: CGPoint(x: canvas.midX + downHalf, y: downBase))
+    ctx.closePath()
+    ctx.fillPath()
 
     guard let cgImage = ctx.makeImage() else {
         print("Failed to create CGImage")
@@ -75,38 +84,6 @@ func generateIcon() {
     CGImageDestinationAddImage(dest, cgImage, nil)
     CGImageDestinationFinalize(dest)
     print("Icon saved to \(pngURL.path)")
-}
-
-func drawArrow(in ctx: CGContext, center: CGPoint, direction: CGFloat, size: CGFloat, color: CGFloat) {
-    // direction: -1 = up, 1 = down
-    ctx.saveGState()
-    ctx.translateBy(x: center.x, y: center.y)
-
-    let shaftW = size * 0.22
-    let shaftH = size * 0.40
-    let headW = size * 0.60
-    let headH = size * 0.35
-
-    ctx.setFillColor(CGColor(red: color, green: color, blue: color, alpha: 1))
-
-    // Shaft
-    let shaftEnd = direction * shaftH
-    let shaftRect = CGRect(x: -shaftW / 2, y: min(direction >= 0 ? 0 : shaftEnd, direction >= 0 ? shaftEnd : 0),
-                           width: shaftW, height: abs(shaftEnd))
-    ctx.addRect(shaftRect)
-
-    // Triangle head
-    let baseY: CGFloat = 0
-    let tipY = direction * (shaftH + headH)
-    let triangle = CGMutablePath()
-    triangle.move(to: CGPoint(x: -headW / 2, y: baseY))
-    triangle.addLine(to: CGPoint(x: headW / 2, y: baseY))
-    triangle.addLine(to: CGPoint(x: 0, y: tipY))
-    triangle.closeSubpath()
-    ctx.addPath(triangle)
-
-    ctx.fillPath()
-    ctx.restoreGState()
 }
 
 generateIcon()

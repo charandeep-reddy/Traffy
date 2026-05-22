@@ -21,8 +21,15 @@ app: build
 
 dmg: app
 	rm -f $(APP).dmg
-	hdiutil create -volname "$(APP)" -srcfolder $(APP).app \
+	rm -rf _staging
+	mkdir _staging
+	cp -R $(APP).app _staging/
+	ln -s /Applications _staging/Applications
+
+	hdiutil create -volname "$(APP)" -srcfolder _staging \
 		-ov -format UDZO -fs HFS+ $(APP).dmg
+
+	rm -rf _staging
 	@echo "DMG created: $(APP).dmg"
 
 icon:
