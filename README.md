@@ -1,8 +1,8 @@
-# Traffic Indicator
+# Traffy
 
 A lightweight macOS menu bar app that displays real-time network upload and download speeds.
 
-[![Download](https://img.shields.io/badge/Download-v1.0.0-brightgreen)](https://github.com/charandeep-reddy/TrafficIndicator/releases/latest)
+[![Download](https://img.shields.io/badge/Download-v1.0.0-brightgreen)](https://github.com/charandeep-reddy/traffy/releases/latest)
 ![macOS 13+](https://img.shields.io/badge/macOS-13%2B-blue)
 ![Swift 6](https://img.shields.io/badge/Swift-6-orange)
 ![MIT](https://img.shields.io/badge/license-MIT-green)
@@ -23,16 +23,16 @@ A lightweight macOS menu bar app that displays real-time network upload and down
 
 ## Installation
 
-1. Download the latest `TrafficIndicator.dmg` from [Releases](https://github.com/charandeep-reddy/TrafficIndicator/releases)
-2. Open the DMG and drag `TrafficIndicator.app` to your Applications folder
+1. Download the latest `Traffy.dmg` from [Releases](https://github.com/charandeep-reddy/traffy/releases)
+2. Open the DMG and drag `Traffy.app` to your Applications folder
 3. Launch it — you'll see your network speeds in the menu bar
 4. (Optional) Enable "Launch at Login" from the dropdown menu
 
 ## Build from Source
 
 ```bash
-git clone https://github.com/charandeep-reddy/TrafficIndicator.git
-cd TrafficIndicator
+git clone https://github.com/charandeep-reddy/traffy.git
+cd traffy
 make dmg
 ```
 
@@ -50,7 +50,7 @@ Click the speed display in the menu bar to open the dropdown:
 
 ## How It Works
 
-Traffic Indicator uses the `getifaddrs()` system API to read per-interface byte counters, then calculates deltas over the configured interval to derive speeds. No external dependencies — pure Swift + system frameworks.
+Traffy uses the `getifaddrs()` system API to read per-interface byte counters, then calculates deltas over the configured interval to derive speeds. No external dependencies — pure Swift + system frameworks.
 
 ## License
 

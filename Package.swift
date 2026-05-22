@@ -2,13 +2,13 @@
 import PackageDescription
 
 let package = Package(
-    name: "TrafficIndicator",
+    name: "Traffy",
     platforms: [
         .macOS(.v13)
     ],
     targets: [
         .executableTarget(
-            name: "TrafficIndicator"
+            name: "Traffy"
         )
     ]
 )

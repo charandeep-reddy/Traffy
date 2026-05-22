@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct TrafficIndicatorApp: App {
+struct TraffyApp: App {
     @StateObject private var monitor = NetworkMonitor()
     @StateObject private var settings = Settings()
 

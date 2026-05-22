@@ -1,5 +1,5 @@
-APP = TrafficIndicator
-BUNDLE_ID = com.trafficindicator.app
+APP = Traffy
+BUNDLE_ID = com.psydevx.traffy
 BUILD_DIR = .build/release
 
 .PHONY: all build app dmg icon clean

@@ -5,11 +5,11 @@
     <key>LSUIElement</key>
     <true/>
     <key>CFBundleName</key>
-    <string>TrafficIndicator</string>
+    <string>Traffy</string>
     <key>CFBundleDisplayName</key>
-    <string>Traffic Indicator</string>
+    <string>Traffy</string>
     <key>CFBundleIdentifier</key>
-    <string>com.trafficindicator.app</string>
+    <string>com.psydevx.traffy</string>
     <key>CFBundleVersion</key>
     <string>1.0.0</string>
     <key>CFBundleShortVersionString</key>
