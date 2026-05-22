@@ -6,6 +6,7 @@ struct NetworkSpeed {
     let download: Double
 }
 
+@MainActor
 final class NetworkMonitor: ObservableObject {
     @Published var speed = NetworkSpeed(upload: 0, download: 0)
 
@@ -17,8 +18,10 @@ final class NetworkMonitor: ObservableObject {
         self.interval = interval
         previousBytes = nil
         timer?.invalidate()
-        let newTimer = Timer(timeInterval: interval, repeats: true) { [weak self] _ in
-            self?.tick()
+        let newTimer = Timer(timeInterval: interval, repeats: true) { _ in
+            Task { @MainActor [weak self] in
+                self?.tick()
+            }
         }
         RunLoop.main.add(newTimer, forMode: .common)
         timer = newTimer
