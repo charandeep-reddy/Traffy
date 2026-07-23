@@ -2,7 +2,7 @@
 
 A lightweight macOS menu bar app that displays real-time network upload and download speeds.
 
-[![Download](https://img.shields.io/badge/Download-v1.0.0-brightgreen)](https://github.com/charandeep-reddy/traffy/releases/latest)
+[![Download](https://img.shields.io/badge/Download-v1.0.2-brightgreen)](https://github.com/charandeep-reddy/traffy/releases/latest)
 ![macOS 13+](https://img.shields.io/badge/macOS-13%2B-blue)
 ![Swift 6](https://img.shields.io/badge/Swift-6-orange)
 ![MIT](https://img.shields.io/badge/license-MIT-green)
