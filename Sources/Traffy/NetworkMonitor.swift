@@ -46,8 +46,8 @@ final class NetworkMonitor: ObservableObject {
             return
         }
 
-        let uploadDelta = current.upload - prev.upload
-        let downloadDelta = current.download - prev.download
+        let uploadDelta = current.upload >= prev.upload ? current.upload - prev.upload : 0
+        let downloadDelta = current.download >= prev.download ? current.download - prev.download : 0
 
         previousBytes = current
 
