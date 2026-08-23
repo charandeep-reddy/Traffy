@@ -4,7 +4,7 @@ import PackageDescription
 let package = Package(
     name: "Traffy",
     platforms: [
-        .macOS(.v13)
+        .macOS(.v26)
     ],
     targets: [
         .executableTarget(
