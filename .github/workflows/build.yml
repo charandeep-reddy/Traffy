@@ -1,0 +1,44 @@
+name: Build Traffy
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    name: Build Traffy (Apple Silicon)
+    runs-on: macos-26
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+      - name: Show toolchain
+        run: |
+          sw_vers
+          xcodebuild -version
+          swift --version
+      - name: Resolve Swift Package dependencies
+        run: swift package resolve
+      - name: Build Release
+        run: swift build -c release
+      - name: Create app bundle
+        run: |
+          APP="Traffy.app"
+          rm -rf "$APP"
+          mkdir -p "$APP/Contents/MacOS"
+          mkdir -p "$APP/Contents/Resources"
+          cp ".build/release/Traffy" "$APP/Contents/MacOS/Traffy"
+          cp "Resources/Info.plist" "$APP/Contents/Info.plist"
+          cp "Resources/AppIcon.icns" "$APP/Contents/Resources/AppIcon.icns"
+          printf "APPL????" > "$APP/Contents/PkgInfo"
+          codesign --force --sign - "$APP"
+      - name: Verify app architecture
+        run: |
+          file Traffy.app/Contents/MacOS/Traffy
+      - name: Create ZIP
+        run: |
+          ditto -c -k --sequesterRsrc --keepParent \
+            Traffy.app \
+            Traffy-macOS-arm64.zip
+      - name: Upload Traffy.app
+        uses: actions/upload-artifact@v4
+        with:
+          name: Traffy-macOS-arm64
+          path: Traffy-macOS-arm64.zip
+          if-no-files-found: error

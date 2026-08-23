@@ -1,7 +1,17 @@
 import Foundation
 
 enum SpeedFormatter {
+    static let idleThreshold: Double = 1
+
+    static func isIdle(_ bytesPerSecond: Double) -> Bool {
+        bytesPerSecond < idleThreshold
+    }
+
     static func string(for bytesPerSecond: Double, unit: UnitMode) -> String {
+        if isIdle(bytesPerSecond) {
+            return "--"
+        }
+
         let value: Double
         let suffix: String
 
@@ -11,10 +21,6 @@ enum SpeedFormatter {
         case .bits:
             let bitsPerSecond = bytesPerSecond * 8
             (value, suffix) = scale(bitsPerSecond, base: 1000, units: ["b/s", "Kbps", "Mbps", "Gbps"])
-        }
-
-        if value < 1 && (suffix == "B/s" || suffix == "b/s") {
-            return "0.0 \(suffix)"
         }
 
         return String(format: "%.1f %@", value, suffix)
