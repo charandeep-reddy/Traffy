@@ -4,7 +4,7 @@ on:
 jobs:
   build:
     name: Build Traffy (Apple Silicon)
-    runs-on: macos-15
+    runs-on: macos-26
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
