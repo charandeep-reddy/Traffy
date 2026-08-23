@@ -33,11 +33,16 @@ final class Settings: ObservableObject {
         didSet { UserDefaults.standard.set(launchAtLogin, forKey: "launchAtLogin") }
     }
 
+    @Published var hideSpeedWhenIdle: Bool {
+        didSet { UserDefaults.standard.set(hideSpeedWhenIdle, forKey: "hideSpeedWhenIdle") }
+    }
+
     init() {
         let defaults = UserDefaults.standard
         displayMode = DisplayMode(rawValue: defaults.string(forKey: "displayMode") ?? "") ?? .split
         unitMode = UnitMode(rawValue: defaults.string(forKey: "unitMode") ?? "") ?? .bytes
         interval = Interval(rawValue: defaults.double(forKey: "interval")) ?? .one
         launchAtLogin = defaults.bool(forKey: "launchAtLogin")
+        hideSpeedWhenIdle = defaults.bool(forKey: "hideSpeedWhenIdle")
     }
 }
