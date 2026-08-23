@@ -12,6 +12,7 @@ struct TraffyApp: App {
             LabelText(monitor: monitor, settings: settings)
                 .onAppear { monitor.start(interval: settings.interval.rawValue) }
         }
+        .menuBarExtraStyle(.window)
     }
 }
 
@@ -20,18 +21,31 @@ private struct LabelText: View {
     @ObservedObject var settings: Settings
 
     var body: some View {
-        let up = short(SpeedFormatter.string(for: monitor.speed.upload, unit: settings.unitMode))
-        let down = short(SpeedFormatter.string(for: monitor.speed.download, unit: settings.unitMode))
-        if settings.displayMode == .split {
-            Text("↓ \(down)  ↑ \(up)")
-                .monospacedDigit()
+        let uploadIdle = SpeedFormatter.isIdle(monitor.speed.upload)
+        let downloadIdle = SpeedFormatter.isIdle(monitor.speed.download)
+        let fullyIdle = uploadIdle && downloadIdle
+
+        if settings.hideSpeedWhenIdle && fullyIdle {
+            Image(systemName: "network")
+                .foregroundStyle(.secondary)
         } else {
-            if monitor.speed.upload >= monitor.speed.download {
-                Text("↑ \(up)")
+            let up = short(SpeedFormatter.string(for: monitor.speed.upload, unit: settings.unitMode))
+            let down = short(SpeedFormatter.string(for: monitor.speed.download, unit: settings.unitMode))
+
+            if settings.displayMode == .split {
+                Text("↓ \(down)  ↑ \(up)")
                     .monospacedDigit()
+                    .foregroundStyle(fullyIdle ? .secondary : .primary)
             } else {
-                Text("↓ \(down)")
-                    .monospacedDigit()
+                if monitor.speed.upload >= monitor.speed.download {
+                    Text("↑ \(up)")
+                        .monospacedDigit()
+                        .foregroundStyle(uploadIdle ? .secondary : .primary)
+                } else {
+                    Text("↓ \(down)")
+                        .monospacedDigit()
+                        .foregroundStyle(downloadIdle ? .secondary : .primary)
+                }
             }
         }
     }
